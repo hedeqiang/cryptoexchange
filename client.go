@@ -38,6 +38,8 @@ func (c *CryptoExchangeClient) AddExchange(name types.ExchangeName, config types
 		c.exchange = exchanges.NewGate(config)
 	case types.Kraken:
 		c.exchange = exchanges.NewKraken(config)
+	case types.Bybit:
+		c.exchange = exchanges.NewBybit(config)
 	default:
 		return &ExchangeError{Exchange: name, Message: "unsupported exchanges"}
 	}

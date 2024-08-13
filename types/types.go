@@ -14,6 +14,7 @@ const (
 	MEXC    ExchangeName = "MEXC"
 	Gate    ExchangeName = "GATE"
 	Kraken  ExchangeName = "KRAKEN"
+	Bybit   ExchangeName = "BYBIT"
 )
 
 type ExchangeConfig struct {

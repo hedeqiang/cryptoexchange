@@ -188,7 +188,33 @@ if err != nil {
 fmt.Printf("Kraken account balance: %v\n", response)
 ```
 
+### Bybit
 
+#### Public Endpoint (Market Data)
+```go
+// Get the latest price of BTC/USDT
+params := map[string]interface{}{
+    "symbol": "BTCUSDT",
+    "category": "spot",
+}
+response, err := c.SendRequest("GET", "/v5/market/tickers", params, false)
+if err != nil {
+    log.Fatalf("Failed to send request: %v", err)
+}
+fmt.Printf("Bybit BTC/USDT price: %v\n", response)
+```
+
+#### Private Endpoint (Get Account Balance)
+```go
+params := map[string]interface{}{
+    "accountType": "UNIFIED",
+}
+response, err := c.SendRequest("GET", "/v5/account/wallet-balance", params, true)
+if err != nil {
+    log.Fatalf("Failed to get account balance: %v", err)
+}
+fmt.Printf("Bybit account balance: %v\n", response)
+```
 ... (Similar examples for other exchanges)
 
 
