@@ -23,34 +23,32 @@ First, import the necessary packages and set up your API configurations:
 package main
 
 import (
-    "fmt"
-    "log"
-    "os"
+	"log"
+	"os"
 
-    "github.com/hedeqiang/cryptoexchange/client"
-    "github.com/hedeqiang/cryptoexchange/types"
+	"github.com/hedeqiang/cryptoexchange"
+	"github.com/hedeqiang/cryptoexchange/types"
 )
 
 func main() {
-    // Create a client instance
-    c := client.NewCryptoExchangeClient()
+	// Create a client instance
+	c := cryptoexchange.NewCryptoExchangeClient()
 
-    // Set up your API configurations
-    binanceConfig := types.ExchangeConfig{
-        APIKey:    os.Getenv("BINANCE_API_KEY"),
-        APISecret: os.Getenv("BINANCE_API_SECRET"),
-    }
+	// Set up your API configurations
+	binanceConfig := types.ExchangeConfig{
+		APIKey:    os.Getenv("BINANCE_API_KEY"),
+		APISecret: os.Getenv("BINANCE_API_SECRET"),
+	}
 
-    // Add exchange to the client
-    err := c.AddExchange(types.Binance, binanceConfig)
-    if err != nil {
-        log.Fatalf("Failed to add Binance exchange: %v", err)
-    }
+	// Add exchange to the client
+	err := c.AddExchange(types.Binance, binanceConfig)
+	if err != nil {
+		log.Fatalf("Failed to add Binance exchange: %v", err)
+	}
 
-    // Now you can use the client to send requests
-    // ...
+	// Now you can use the client to send requests
+	// ...
 }
-
 ```
 ### Explanation of the signed Parameter
 - Public endpoints (such as market data) do not require authentication and can be accessed with signed=false.
