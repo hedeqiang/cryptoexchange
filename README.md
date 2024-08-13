@@ -10,6 +10,7 @@ A Go framework for accessing multiple cryptocurrency exchanges' APIs.
 - MEXC
 - Gate.io
 - Kraken
+- Bybit
 
 ## Installation
 
