@@ -11,6 +11,7 @@ A Go framework for accessing multiple cryptocurrency exchanges' APIs.
 - Gate.io
 - Kraken
 - Bybit
+- Huobi
 
 ## Installation
 
@@ -215,6 +216,31 @@ if err != nil {
     log.Fatalf("Failed to get account balance: %v", err)
 }
 fmt.Printf("Bybit account balance: %v\n", response)
+```
+
+### Huobi
+
+#### Public Endpoint (Market Data)
+```go
+// Get the latest price of BTC/USDT
+params := map[string]interface{}{
+    "symbol": "btcusdt",
+}
+response, err := c.SendRequest("GET", "/market/detail/merged", params, false)
+if err != nil {
+    log.Fatalf("Failed to send request: %v", err)
+}
+fmt.Printf("Huobi BTC/USDT price: %v\n", response)
+```
+
+#### Private Endpoint (Get Account Balance)
+```go
+
+response, err := c.SendRequest("GET", "/v1/account/accounts/{account-id}/balance", nil, true)
+if err != nil {
+    log.Fatalf("Failed to get account balance: %v", err)
+}
+fmt.Printf("Huobi account balance: %v\n", response)
 ```
 ... (Similar examples for other exchanges)
 

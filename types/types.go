@@ -15,6 +15,7 @@ const (
 	Gate    ExchangeName = "GATE"
 	Kraken  ExchangeName = "KRAKEN"
 	Bybit   ExchangeName = "BYBIT"
+	Huobi   ExchangeName = "HUOBI"
 )
 
 type ExchangeConfig struct {
