@@ -12,6 +12,7 @@ A Go framework for accessing multiple cryptocurrency exchanges' APIs.
 - Kraken
 - Bybit
 - Huobi
+- Coinbase
 
 ## Installation
 
@@ -242,6 +243,28 @@ if err != nil {
 }
 fmt.Printf("Huobi account balance: %v\n", response)
 ```
+
+### Coinbase
+
+#### Public Endpoint (Market Data)
+```go
+// Get the latest price of BTC-USD
+response, err := c.SendRequest("GET", "/products/{product_id}/ticker", nil, false)
+if err != nil {
+    log.Fatalf("Failed to send request: %v", err)
+}
+fmt.Printf("Coinbase BTC-USD price: %v\n", response)
+```
+
+#### Private Endpoint (Get Account Balance)
+```go
+response, err := c.SendRequest("GET", "/accounts", nil, true)
+if err != nil {
+    log.Fatalf("Failed to get account balance: %v", err)
+}
+fmt.Printf("Coinbase account balance: %v\n", response)
+```
+
 ... (Similar examples for other exchanges)
 
 

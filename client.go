@@ -42,6 +42,8 @@ func (c *CryptoExchangeClient) AddExchange(name types.ExchangeName, config types
 		c.exchange = exchanges.NewBybit(config)
 	case types.Huobi:
 		c.exchange = exchanges.NewHuobi(config)
+	case types.Coinbase:
+		c.exchange = exchanges.NewCoinbase(config)
 	default:
 		return &ExchangeError{Exchange: name, Message: "unsupported exchanges"}
 	}

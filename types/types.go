@@ -7,15 +7,16 @@ import (
 type ExchangeName string
 
 const (
-	Binance ExchangeName = "BINANCE"
-	OKX     ExchangeName = "OKX"
-	Bitget  ExchangeName = "BITGET"
-	Kucoin  ExchangeName = "KUCOIN"
-	MEXC    ExchangeName = "MEXC"
-	Gate    ExchangeName = "GATE"
-	Kraken  ExchangeName = "KRAKEN"
-	Bybit   ExchangeName = "BYBIT"
-	Huobi   ExchangeName = "HUOBI"
+	Binance  ExchangeName = "BINANCE"
+	OKX      ExchangeName = "OKX"
+	Bitget   ExchangeName = "BITGET"
+	Kucoin   ExchangeName = "KUCOIN"
+	MEXC     ExchangeName = "MEXC"
+	Gate     ExchangeName = "GATE"
+	Kraken   ExchangeName = "KRAKEN"
+	Bybit    ExchangeName = "BYBIT"
+	Huobi    ExchangeName = "HUOBI"
+	Coinbase ExchangeName = "COINBASE"
 )
 
 type ExchangeConfig struct {
