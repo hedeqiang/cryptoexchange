@@ -13,6 +13,7 @@ A Go framework for accessing multiple cryptocurrency exchanges' APIs.
 - Bybit
 - Huobi
 - Coinbase
+- BTSE
 
 ## Installation
 
@@ -263,6 +264,28 @@ if err != nil {
     log.Fatalf("Failed to get account balance: %v", err)
 }
 fmt.Printf("Coinbase account balance: %v\n", response)
+```
+### BTSE
+
+#### Public Endpoint (Market Data)
+```go
+// Get the latest price of BTC-USD
+params := map[string]interface{}{
+    "symbol": "BTC-USD",
+}
+response, err := c.SendRequest("GET", "/api/v3.2/market_summary", params, false)
+if err != nil {
+    log.Fatalf("Failed to send request: %v", err)
+}
+fmt.Printf("BTSE BTC-USD market summary: %v\n", response)
+```
+#### Private Endpoint (Get Account Balance)
+```go
+response, err := c.SendRequest("GET", "/api/v3.2/user/wallet", nil, true)
+if err != nil {
+    log.Fatalf("Failed to get account balance: %v", err)
+}
+fmt.Printf("BTSE account balance: %v\n", response)
 ```
 
 ... (Similar examples for other exchanges)

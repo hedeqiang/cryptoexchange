@@ -17,6 +17,7 @@ const (
 	Bybit    ExchangeName = "BYBIT"
 	Huobi    ExchangeName = "HUOBI"
 	Coinbase ExchangeName = "COINBASE"
+	BTSE     ExchangeName = "BTSE"
 )
 
 type ExchangeConfig struct {
