@@ -26,17 +26,31 @@ func TestCryptoExchangeClient_SendRequest(t *testing.T) {
 		APIKey:    "test_key",
 		APISecret: "test_secret",
 	})
-	if err != nil {
-		return
-	}
+	assert.NoError(t, err)
 
 	params := map[string]interface{}{
 		"symbol": "BTCUSDT",
 	}
 
-	response, err := client.SendRequest("GET", "/api/v3/ticker/price", params, false)
+	// 定义一个结构体来匹配预期的响应格式
+	type TickerPrice struct {
+		Symbol string `json:"symbol"`
+		Price  string `json:"price"`
+	}
 
+	var response TickerPrice
+	err = client.SendRequest("GET", "/api/v3/ticker/price", params, false, &response)
 	assert.NoError(t, err)
-	assert.NotNil(t, response)
+	assert.NotEmpty(t, response.Symbol)
+	assert.NotEmpty(t, response.Price)
 
+	// 测试数组响应
+	var arrayResponse []TickerPrice
+	err = client.SendRequest("GET", "/api/v3/ticker/price", nil, false, &arrayResponse)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, arrayResponse)
+	if len(arrayResponse) > 0 {
+		assert.NotEmpty(t, arrayResponse[0].Symbol)
+		assert.NotEmpty(t, arrayResponse[0].Price)
+	}
 }

@@ -3,10 +3,12 @@ package cryptoexchange
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/hedeqiang/cryptoexchange/exchanges"
-	"github.com/hedeqiang/cryptoexchange/types"
 	"io/ioutil"
 	"net/http"
+	"reflect"
+
+	"github.com/hedeqiang/cryptoexchange/exchanges"
+	"github.com/hedeqiang/cryptoexchange/types"
 )
 
 type CryptoExchangeClient struct {
@@ -22,7 +24,6 @@ func NewCryptoExchangeClient() *CryptoExchangeClient {
 }
 
 func (c *CryptoExchangeClient) AddExchange(name types.ExchangeName, config types.ExchangeConfig) error {
-
 	switch name {
 	case types.Binance:
 		c.exchange = exchanges.NewBinance(config)
@@ -57,34 +58,39 @@ func (c *CryptoExchangeClient) GetExchange() types.Exchange {
 	return c.exchange
 }
 
-func (c *CryptoExchangeClient) SendRequest(method, endpoint string, params map[string]interface{}, signed bool) (map[string]interface{}, error) {
+func (c *CryptoExchangeClient) SendRequest(method, endpoint string, params map[string]interface{}, signed bool, result interface{}) error {
 	exchange := c.exchange
 
 	req, err := exchange.PrepareRequest(method, endpoint, params, signed)
 	if err != nil {
-		return nil, &ExchangeError{Exchange: c.exchange.Name(), Message: err.Error()}
+		return &ExchangeError{Exchange: c.exchange.Name(), Message: err.Error()}
 	}
 
 	resp, err := c.client.Do(req)
 	if err != nil {
-		return nil, &ExchangeError{Exchange: c.exchange.Name(), Message: err.Error()}
+		return &ExchangeError{Exchange: c.exchange.Name(), Message: err.Error()}
 	}
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, &ExchangeError{Exchange: c.exchange.Name(), Message: err.Error()}
+		return &ExchangeError{Exchange: c.exchange.Name(), Message: err.Error()}
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, &APIError{StatusCode: resp.StatusCode, Body: string(body)}
+		return &APIError{StatusCode: resp.StatusCode, Body: string(body)}
 	}
 
-	var result map[string]interface{}
-	err = json.Unmarshal(body, &result)
+	// 使用反射来确定结果类型并相应地解析
+	resultValue := reflect.ValueOf(result)
+	if resultValue.Kind() != reflect.Ptr || resultValue.IsNil() {
+		return fmt.Errorf("result must be a non-nil pointer")
+	}
+
+	err = json.Unmarshal(body, result)
 	if err != nil {
-		return nil, &ExchangeError{Exchange: c.exchange.Name(), Message: fmt.Sprintf("failed to parse response: %s", err.Error())}
+		return &ExchangeError{Exchange: c.exchange.Name(), Message: fmt.Sprintf("failed to parse response: %s", err.Error())}
 	}
 
-	return result, nil
+	return nil
 }
